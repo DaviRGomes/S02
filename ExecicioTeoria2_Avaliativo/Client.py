@@ -4,12 +4,13 @@ from neo4j.exceptions import ServiceUnavailable
 # Função para consultar o grafo com base no nome e capturar labels dinâmicos
 def GetFamilyGradle(tx, name):
     query = f"""
-    MATCH (n {{name: '{name}'}})
+    MATCH (n)
+    WHERE n.name = $name 
     RETURN n AS pessoa, labels(n) AS labels
     """
     print(f"Consulta gerada: {query}") 
     try:
-        result = tx.run(query)
+        result = tx.run(query,name= name)
         return [{
             'name': row['pessoa']['name'],
             'sexo': row['pessoa']['sexo'],
@@ -35,11 +36,16 @@ def GetLabel(tx, label):
         print(f"{query} raised an error: \n {exception}")
         raise
 def GetRelationships(tx, relationship_type):
+    # query = f"""
+    # MATCH (a)-[r:{relationship_type}]->(b)
+    # RETURN a.name AS origem, type(r) AS relacionamento, r.desde AS ano, b.name AS destino;
+    # """
     query = f"""
-    MATCH (a)-[r:{relationship_type}]->(b)
+    MATCH (a)-[r]->(b)
+    WHERE type(r) = $relationship_type
     RETURN a.name AS origem, type(r) AS relacionamento, r.desde AS ano, b.name AS destino;
     """
-    result = tx.run(query)
+    result = tx.run(query, relationship_type =relationship_type)
     return [dict(record) for record in result]
 def main():
     uri = "bolt://localhost:7687"
@@ -48,56 +54,12 @@ def main():
 
     driver = GraphDatabase.driver(uri, auth=(user, password))
 
-    # while True:
-    #     print("\n--- Menu de Consulta ao Grafo ---")
-    #     print("1. Consultar pessoa ou objeto no grafo")
-    #     print("2. Consulta por label")
-    #     print("3. Sair")
-    #     opcao = input("Escolha uma opção: ")
-
-    #     if opcao == "1":
-
-    #         name = input("Digite o nome do nó (ex.: Davi, Rex): ")
-
-    #         with driver.session() as session:
-    #             result = session.execute_read(GetFamilyGradle, name)
-    #             if result:
-    #                 print("\nResultados encontrados:")
-    #                 for pessoa in result:
-                       
-    #                     labels_str = ", ".join(pessoa['labels'])
-    #                     if pessoa['especialidade']:
-    #                         print(f"Nome: {pessoa['name']}, Sexo: {pessoa['sexo']}, Idade: {pessoa['idade']}, Labels: {labels_str}, Especialidade: {pessoa['especialidade']}")
-    #                     elif pessoa['labels'][0] == "Cachorro":
-    #                         print(f"Nome do cachorro {pessoa['name']}, idade {pessoa['idade']}, sexo {pessoa['sexo']}, raça {pessoa['raça']}")
-    #                     else:
-                            
-    #                         print(f"Nome: {pessoa['name']}, Sexo: {pessoa['sexo']}, Idade: {pessoa['idade']}, Labels: {labels_str}")
-    #             else:
-    #                 print("\nNenhum resultado encontrado.")
-    #     elif opcao == "2":
-    #         label = input("Digite a label (ex.: Pessoa, Engenheiro, Aposentados): ")
-
-    #         with driver.session() as session:
-    #             result = session.execute_read(GetLabel, label)
-    #             if result:
-    #                 print("\nNós encontrados:")
-    #                 for node in result:
-    #                     print(f"Nome: {node['nome']}, Sexo: {node['sexo']}, Idade: {node['idade']}")
-    #             else:
-    #                 print("\nNenhum nó encontrado com a label especificada.")
-    #     elif opcao == "3":
-    #         print("Saindo do programa...")
-    #         break
-    #     else:
-    #         print("Opção inválida. Tente novamente.")
-
     with driver.session( ) as sessions:
 
         print("Engenheiros da familia")
-        result = sessions.execute_read(GetLabel, "Engenheiro")
+        result = sessions.execute_read(GetFamilyGradle, "Davi")
         for pessoa in result:
-            print(f"Nome {pessoa['nome']}, idade {pessoa['idade']}")
+            print(f"Nome {pessoa['name']}, idade {pessoa['idade']}, profissão {pessoa['labels']}")
 
         
         print("\nPessoas aposentadas da familia")
