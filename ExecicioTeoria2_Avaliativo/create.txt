@@ -1,0 +1,65 @@
+// ===== Pessoas =====
+CREATE (:Pessoa:Engenheiro {name: "Davi", idade: 22, sexo: "Masculino", especialidade: "Computação"});
+CREATE (:Pessoa:Advogado {name: "Vinicius", idade: 45, sexo: "Masculino", especialidade: "Penal, familiar"});
+CREATE (:Pessoa:Professora {name: "Jaqueline", idade: 43, sexo: "Feminino", especialidade: "Fundamental I"});
+CREATE (:Pessoa:Advogado {name: "Rodrigo", idade: 46, sexo: "Masculino", especialidade: "Penal"});
+CREATE (:Pessoa:Manicure {name: "Janaina", idade: 45, sexo: "Feminino", especialidade: "Unha e pé"});
+CREATE (:Pessoa:Dentista {name: "Junia", idade: 24, sexo: "Feminino"});
+CREATE (:Pessoa:Professora:Aposentado {name: "Rosangela", idade: 68, sexo: "Feminino", especialidade: "Creche"});
+CREATE (:Pessoa:Aposentado {name: "Adaria", idade: 69, sexo: "Feminino"});
+CREATE (:Pessoa:Aposentado:Soldador {name: "Ébio", idade: 64, sexo: "Masculino", especialidade: "Soldador da CBC"});
+
+// ===== Pets =====
+CREATE (:Cachorro:Pastor {name: "Lobo", idade: 6, sexo: "Masculino", raca: "Alemão"});
+CREATE (:Cachorro:Fila {name: "Rex", idade: 4, sexo: "Masculino"});
+
+// ===== Relacionamentos =====
+// Davi com pais
+MATCH (d:Pessoa {name: "Davi"}), (v:Pessoa {name: "Vinicius"}) CREATE (d)-[:FILHO_DE]->(v);
+MATCH (d:Pessoa {name: "Davi"}), (j:Pessoa {name: "Jaqueline"}) CREATE (d)-[:FILHO_DE]->(j);
+
+// Davi com avós
+MATCH (d:Pessoa {name: "Davi"}), (r:Pessoa {name: "Rosangela"}) CREATE (d)-[:NETO_DE]->(r);
+MATCH (d:Pessoa {name: "Davi"}), (a:Pessoa {name: "Adaria"}) CREATE (d)-[:NETO_DE]->(a);
+MATCH (d:Pessoa {name: "Davi"}), (e:Pessoa {name: "Ébio"}) CREATE (d)-[:NETO_DE]->(e);
+
+// Davi com tio/padrinho e tia
+MATCH (d:Pessoa {name: "Davi"}), (ro:Pessoa {name: "Rodrigo"}) CREATE (d)-[:SOBRINHO_DE]->(ro), (d)-[:AFILHADO_DE]->(ro);
+MATCH (d:Pessoa {name: "Davi"}), (ja:Pessoa {name: "Janaina"}) CREATE (d)-[:SOBRINHO_DE]->(ja);
+
+// Davi com prima
+MATCH (d:Pessoa {name: "Davi"}), (ju:Pessoa {name: "Junia"}) CREATE (d)-[:PRIMO_DE]->(ju);
+
+// Davi com cachorros
+MATCH (d:Pessoa {name: "Davi"}), (l:Cachorro {name: "Lobo"}) CREATE (d)-[:DONO_DE {desde: 2018}]->(l);
+MATCH (d:Pessoa {name: "Davi"}), (r:Cachorro {name: "Rex"}) CREATE (d)-[:DONO_DE {desde: 2019}]->(r);
+
+// Pais de Vinicius
+MATCH (v:Pessoa {name: "Vinicius"}), (a:Pessoa {name: "Adaria"}) CREATE (v)-[:FILHO_DE]->(a);
+MATCH (v:Pessoa {name: "Vinicius"}), (e:Pessoa {name: "Ébio"}) CREATE (v)-[:FILHO_DE]->(e);
+
+// Vinicius casado com Jaqueline
+MATCH (v:Pessoa {name: "Vinicius"}), (j:Pessoa {name: "Jaqueline"}) 
+CREATE (v)-[:CASADO_COM {tipo: "matrimônio", desde: "2002"}]->(j);
+
+// Irmãos
+MATCH (v:Pessoa {name: "Vinicius"}), (ro:Pessoa {name: "Rodrigo"}) CREATE (v)-[:IRMÃO_DE]->(ro);
+MATCH (j:Pessoa {name: "Jaqueline"}), (ja:Pessoa {name: "Janaina"}) CREATE (j)-[:IRMÃO_DE]->(ja);
+
+// Jaqueline filha de Rosangela
+MATCH (j:Pessoa {name: "Jaqueline"}), (r:Pessoa {name: "Rosangela"}) CREATE (j)-[:FILHO_DE]->(r);
+
+// Rosangela mãe de Jaqueline e Janaina
+MATCH (r:Pessoa {name: "Rosangela"}), (ja:Pessoa {name: "Janaina"}) CREATE (r)-[:PAI_DE]->(ja);
+MATCH (r:Pessoa {name: "Rosangela"}), (j:Pessoa {name: "Jaqueline"}) CREATE (r)-[:PAI_DE]->(j);
+
+// Adaria mãe de Vinicius e Rodrigo
+MATCH (a:Pessoa {name: "Adaria"}), (v:Pessoa {name: "Vinicius"}) CREATE (a)-[:PAI_DE]->(v);
+MATCH (a:Pessoa {name: "Adaria"}), (ro:Pessoa {name: "Rodrigo"}) CREATE (a)-[:PAI_DE]->(ro);
+
+// Adaria casada com Ébio
+MATCH (a:Pessoa {name: "Adaria"}), (e:Pessoa {name: "Ébio"}) 
+CREATE (a)-[:CASADO_COM {tipo: "matrimônio", desde: "1978"}]->(e);
+
+// Jaqueline mãe de Davi
+MATCH (j:Pessoa {name: "Jaqueline"}), (d:Pessoa {name: "Davi"}) CREATE (j)-[:PAI_DE]->(d);

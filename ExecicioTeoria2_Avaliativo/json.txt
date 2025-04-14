@@ -1,0 +1,139 @@
+{
+  "pessoa": {
+    "name": "Davi",
+    "idade": 22,
+    "sexo": "Masculino",
+    "profissao": "Engenheiro",
+    "especialidade": "Computação",
+    "pais": [
+      {
+        "name": "Vinicius",
+        "idade": 45,
+        "sexo": "Masculino",
+        "profissao": "Advogado",
+        "especialidade": "Penal, familiar",
+        "irmaos": [
+          {
+            "name": "Rodrigo",
+            "idade": 46,
+            "sexo": "Masculino",
+            "profissao": "Advogado",
+            "especialidade": "Penal"
+          }
+        ],
+        "conjuge": {
+          "name": "Jaqueline",
+          "idade": 43,
+          "sexo": "Feminino",
+          "profissao": "Professora",
+          "especialidade": "Fundamental I",
+          "desde": "2002",
+          "irmaos": [
+            {
+              "name": "Janaina",
+              "idade": 45,
+              "sexo": "Feminino",
+              "profissao": "Manicure",
+              "especialidade": "Unha e pé"
+            }
+          ],
+          "mae": {
+            "name": "Rosangela",
+            "idade": 68,
+            "sexo": "Feminino",
+            "profissao": "Professora",
+            "especialidade": "Creche",
+            "status": "Aposentado"
+          }
+        },
+        "mae": {
+          "name": "Adaria",
+          "idade": 69,
+          "sexo": "Feminino",
+          "status": "Aposentado"
+        },
+        "pai": {
+          "name": "Ébio",
+          "idade": 64,
+          "sexo": "Masculino",
+          "profissao": "Soldador",
+          "especialidade": "Soldador da CBC",
+          "status": "Aposentado"
+        }
+      },
+      {
+        "name": "Jaqueline",
+        "idade": 43,
+        "sexo": "Feminino",
+        "profissao": "Professora",
+        "especialidade": "Fundamental I"
+      }
+    ],
+    "avos": [
+      {
+        "name": "Rosangela",
+        "idade": 68,
+        "sexo": "Feminino",
+        "profissao": "Professora",
+        "especialidade": "Creche",
+        "status": "Aposentado"
+      },
+      {
+        "name": "Adaria",
+        "idade": 69,
+        "sexo": "Feminino",
+        "status": "Aposentado"
+      },
+      {
+        "name": "Ébio",
+        "idade": 64,
+        "sexo": "Masculino",
+        "profissao": "Soldador",
+        "especialidade": "Soldador da CBC",
+        "status": "Aposentado"
+      }
+    ],
+    "tios": [
+      {
+        "name": "Rodrigo",
+        "idade": 46,
+        "sexo": "Masculino",
+        "profissao": "Advogado",
+        "especialidade": "Penal",
+        "relacoes": ["Tio", "Padrinho"]
+      },
+      {
+        "name": "Janaina",
+        "idade": 45,
+        "sexo": "Feminino",
+        "profissao": "Manicure",
+        "especialidade": "Unha e pé",
+        "relacoes": ["Tia"]
+      }
+    ],
+    "primos": [
+      {
+        "name": "Junia",
+        "idade": 24,
+        "sexo": "Feminino",
+        "profissao": "Dentista"
+      }
+    ],
+    "pets": [
+      {
+        "name": "Lobo",
+        "idade": 6,
+        "sexo": "Masculino",
+        "raca": "Pastor Alemão",
+        "desde": 2018
+      },
+      {
+        "name": "Rex",
+        "idade": 4,
+        "sexo": "Masculino",
+        "raca": "Fila",
+        "desde": 2019
+      }
+    ]
+  }
+}
